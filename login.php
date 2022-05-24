@@ -5,6 +5,12 @@ require 'php/script_login.php';
 ini_set("max_execution_time", "36");
 
 $pdo = connexion();
+if (isset($_SESSION['expired'])){
+    if ($_SESSION['expired'] == true){
+        $erreur = "Votre session a expiré";
+        $_SESSION['expired'] == false;
+    }
+}
 
 
 if (!empty($_POST['login']) && !empty($_POST['mdp'])){ //test pour voir si login et mdp ne sont pas vide
@@ -17,29 +23,36 @@ if (!empty($_POST['login']) && !empty($_POST['mdp'])){ //test pour voir si login
             $statement = $pdo->prepare("SELECT utilisateur.password_user FROM utilisateur WHERE utilisateur.email_user = ?"); //selectionne le mdp hashé du login
             $statement->execute(array($login));
             $utilisateur = $statement->fetch();
-            echo $utilisateur['password_user'];
             if (password_verify($mdp, $utilisateur['password_user'])){ //verifie que le mot de passe correspond au hash
                 session_start(); //démarre la session
                 $_SESSION['connecte'] = 1;
                 $_SESSION['timestamp'] = time();
-                $statement = $pdo->prepare("SELECT COUNT(*) FROM utilisateur WHERE utilisateur.role_user = 'A' AND utilisateur.email_user = ?");
+                $statement = $pdo->prepare("SELECT COUNT(*) FROM utilisateur WHERE utilisateur.role_user = 'a' AND utilisateur.email_user = ?");
                 $statement->execute(array($login));
                 $rep = $statement ->fetchColumn();
                 if ($rep == 1){ //if pour voir si l'utilisateur est un administrateur ou non
                     $_SESSION['admin'] = true;
                 }
+                else{
+                    $_SESSION['admin'] = false;
+                }
+                $statement = $pdo->prepare("SELECT utilisateur.id_user FROM utilisateur WHERE utilisateur.email_user = ?");
+                $statement->execute(array($login));
+                $utilisateur = $statement->fetch();
+                $_SESSION['id_utilisateur'] = $utilisateur['id_user'];
                 header('Location: index.php');
                 exit();
             }
             else {
                 $erreur = "Identifiants incorrects";
-                echo "test1";
             }
         } else {
             $erreur = "Identifiants incorrects";
         }
 } else {
-    $erreur = "Tous les champs doivent être remplis";
+    if (!empty($_POST)){
+        $erreur = "Tous les champs doivent être remplis";
+    }
 }
 $pdo = deconnexion();
 
@@ -72,7 +85,7 @@ function checkInput($data){
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/connection.css">
         <script type="text/javascript">
     // Mettez le code javascript ici.
     </script>
@@ -98,7 +111,7 @@ function checkInput($data){
             <a href="inscr.php"><button type="submit" class="btnInscr">S'inscrire</button></a>
             <h3><a class="btn btn-outline-secondary btn-sm" href="index.php"><span class="bi-arrow-left"></span> Retour</a></h3>
             <?php
-            require 'footer.php';
+            require 'footermenu/footer.php';
             ?>
     </body>
 </html>

@@ -30,46 +30,13 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" 
   integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <!--Navbar-->
-  <section id="Navbar">
-    <div class="container-fluid">
-      <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="saint_vincent">
-          <img class="logo"src="images/logo_stvincent.png">      
-          <a class="navbar-brand" href="#home">Lycée SAINT-VINCENT <br> Enseignement secondaire & supérieur</a>
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav ml-auto">
-            <!--Elements de la navbar-->
-            <a class="nav-item nav-link active" href="#accueil"> Accueil <span class="sr-only">(current)</span></a>
-            <?php
-            session_start();
-            if(isset($_SESSION["admin"])){
-              if($_SESSION["admin"] == true){
-                echo'<a class="nav-item nav-link active" href="cantine_backoffice/index.php"> .Accès au BackOffice. <span class="sr-only"></span></a>';
-              }
-            }
-
-            if(!est_connecte()){
-              echo('<a class="cta" href="login.php" target="blanc"> <button id="BtnCon">Connexion</button></a>');
-            }
-            else{
-              echo('<a class="cta" href="deconnexion.php" target="blanc"> <button id="BtnCon">Déconnexion</button></a>');
-            }
-            ?>
-
-          </div>
-        </div>
-      </nav> 
-    </div>
-  </section>
+  <?php 
+  session_start();
+  require("footermenu/menu.php"); ?>
 
   <!--Accueil-->
   <section>
@@ -103,7 +70,7 @@
   </section>
   <section id="footer">
     <?php
-      require ('footer.php')
+      require ('footermenu/footer.php')
     ?>
   </section>
 

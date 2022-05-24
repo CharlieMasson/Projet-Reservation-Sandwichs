@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <title>LyceeStVincent / Cantine</title>
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
     <!--MetaName-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -35,7 +35,7 @@
     <embed class="img_menu" src="images/menu.pdf" alt="..." height="700px" width="1000px" type="application/pdf"><br>
     <h3 style="margin-top: -20px"><a class="btn btn-outline-secondary btn-sm" href="index.php"><span class="bi-arrow-left"></span> Retour</a></h3>
     <?php
-    require 'footer.php'
+    require 'footermenu/footer.php'
     ?>
     </body>
 </html>

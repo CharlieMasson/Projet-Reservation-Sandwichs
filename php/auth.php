@@ -7,12 +7,4 @@ function est_connecte(): bool {
     return !empty($_SESSION['connecte']);
 }
 
-#fonction pour forcer un utilisateur non connecté à ce connecter 
-function forcer_utilisateur_connecte(){
-    if(est_connecte()){
-        header('Location: login.php');
-        return void;
-    }
-}
-
 ?>

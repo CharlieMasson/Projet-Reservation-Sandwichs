@@ -3,7 +3,7 @@
 class Database{
 
     private static $dbHost = "localhost";
-    private static $dbName = "gestion_comptes_forum";
+    private static $dbName = "reservesandwich";
     private static $dbUser = "root";
     private static $dbUserPassword = "root";
 
